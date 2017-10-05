@@ -62,9 +62,16 @@ class RemoteStreamWrapperWidget extends WidgetBase implements ContainerFactoryPl
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
     $element['url'] = [
       '#type' => 'url',
-      '#title' => $this->t('Url'),
-      '#required' => TRUE,
+      '#required' => $this->fieldDefinition->isRequired(),
     ];
+
+    $cardinality = $this->fieldDefinition->getFieldStorageDefinition()->getCardinality();
+    if ($cardinality == 1) {
+      $element['url'] += [
+        '#title' => $this->fieldDefinition->getLabel(),
+        '#description' => $this->getFilteredDescription()
+      ];
+    }
 
     $id = $items->get($delta)->target_id;
     if (!empty($id)) {
