@@ -94,7 +94,8 @@ class RemoteStreamWrapperWidget extends WidgetBase implements ContainerFactoryPl
     $new_values = [];
     foreach($values as $value) {
       /** @var \Drupal\file\FileInterface $file */
-      $file = reset($fileStorage->loadByProperties(['uri' => $value['url']]));
+      $files = $fileStorage->loadByProperties(['uri' => $value['url']]);
+      $file = reset($files);
       if (!$file) {
         $file = $fileStorage->create([
           'uri' => $value['url'],
