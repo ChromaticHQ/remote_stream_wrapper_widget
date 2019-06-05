@@ -1,0 +1,83 @@
+diff --git a/src/Plugin/Field/FieldWidget/RemoteStreamWrapperWidget.php b/src/Plugin/Field/FieldWidget/RemoteStreamWrapperWidget.php
+index 49a574b..d946f30 100644
+--- a/src/Plugin/Field/FieldWidget/RemoteStreamWrapperWidget.php
++++ b/src/Plugin/Field/FieldWidget/RemoteStreamWrapperWidget.php
+@@ -11,7 +11,6 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+ use Drupal\Core\Session\AccountProxyInterface;
+ use Symfony\Component\DependencyInjection\ContainerInterface;
+ 
+-
+ /**
+  * Plugin implementation of the 'remote_stream_wrapper' widget.
+  *
+@@ -27,11 +26,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
+ class RemoteStreamWrapperWidget extends WidgetBase implements ContainerFactoryPluginInterface {
+ 
+   /**
++   * The entity type manager.
++   *
+    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+    */
+   private $entityTypeManager;
+ 
+   /**
++   * The current user.
++   *
+    * @var \Drupal\Core\Session\AccountProxyInterface
+    */
+   private $currentUser;
+@@ -73,7 +76,7 @@ class RemoteStreamWrapperWidget extends WidgetBase implements ContainerFactoryPl
+     if ($cardinality == 1) {
+       $element['url'] += [
+         '#title' => $this->fieldDefinition->getLabel(),
+-        '#description' => $this->getFilteredDescription()
++        '#description' => $this->getFilteredDescription(),
+       ];
+     }
+ 
+@@ -96,7 +99,7 @@ class RemoteStreamWrapperWidget extends WidgetBase implements ContainerFactoryPl
+     $fileStorage = $this->entityTypeManager->getStorage('file');
+ 
+     $new_values = [];
+-    foreach($values as $value) {
++    foreach ($values as $value) {
+       /** @var \Drupal\file\FileInterface $file */
+       $files = $fileStorage->loadByProperties(['uri' => $value['url']]);
+       $file = reset($files);
+@@ -112,4 +115,5 @@ class RemoteStreamWrapperWidget extends WidgetBase implements ContainerFactoryPl
+ 
+     return $new_values;
+   }
++
+ }
+diff --git a/tests/src/Functional/RemoteStreamWrapperWidgetTest.php b/tests/src/Functional/RemoteStreamWrapperWidgetTest.php
+index c4e8a29..6c16ea2 100644
+--- a/tests/src/Functional/RemoteStreamWrapperWidgetTest.php
++++ b/tests/src/Functional/RemoteStreamWrapperWidgetTest.php
+@@ -14,7 +14,7 @@ use Drupal\Tests\BrowserTestBase;
+ class RemoteStreamWrapperWidgetTest extends BrowserTestBase {
+ 
+   /**
+-   * {@inheritDoc}
++   * {@inheritdoc}
+    */
+   public static $modules = ['node', 'remote_stream_wrapper_widget', 'file'];
+ 
+@@ -54,7 +54,7 @@ class RemoteStreamWrapperWidgetTest extends BrowserTestBase {
+   private $user;
+ 
+   /**
+-   * {@inheritDoc}
++   * {@inheritdoc}
+    */
+   public function setUp() {
+     parent::setUp();
+@@ -95,7 +95,7 @@ class RemoteStreamWrapperWidgetTest extends BrowserTestBase {
+     $nodeTitle = $this->randomString();
+     $values = [
+       'title[0][value]' => $nodeTitle,
+-      "{$this->fieldName}[0][url]" => 'http://example.com/test.txt'
++      "{$this->fieldName}[0][url]" => 'http://example.com/test.txt',
+     ];
+     $this->getSession()->visit("/node/add/{$this->contentType->id()}");
+     $this->assertSame(200, $this->getSession()->getStatusCode());

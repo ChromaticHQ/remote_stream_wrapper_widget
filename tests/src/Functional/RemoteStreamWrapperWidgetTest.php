@@ -14,7 +14,7 @@ use Drupal\Tests\BrowserTestBase;
 class RemoteStreamWrapperWidgetTest extends BrowserTestBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public static $modules = ['node', 'remote_stream_wrapper_widget', 'file'];
 
@@ -54,7 +54,7 @@ class RemoteStreamWrapperWidgetTest extends BrowserTestBase {
   private $user;
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function setUp() {
     parent::setUp();
@@ -95,7 +95,7 @@ class RemoteStreamWrapperWidgetTest extends BrowserTestBase {
     $nodeTitle = $this->randomString();
     $values = [
       'title[0][value]' => $nodeTitle,
-      "{$this->fieldName}[0][url]" => 'http://example.com/test.txt'
+      "{$this->fieldName}[0][url]" => 'http://example.com/test.txt',
     ];
     $this->getSession()->visit("/node/add/{$this->contentType->id()}");
     $this->assertSame(200, $this->getSession()->getStatusCode());

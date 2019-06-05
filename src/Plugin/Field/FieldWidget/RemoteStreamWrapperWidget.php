@@ -11,7 +11,6 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-
 /**
  * Plugin implementation of the 'remote_stream_wrapper' widget.
  *
@@ -27,11 +26,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class RemoteStreamWrapperWidget extends WidgetBase implements ContainerFactoryPluginInterface {
 
   /**
+   * The entity type manager.
+   *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   private $entityTypeManager;
 
   /**
+   * The current user.
+   *
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   private $currentUser;
@@ -73,7 +76,7 @@ class RemoteStreamWrapperWidget extends WidgetBase implements ContainerFactoryPl
     if ($cardinality == 1) {
       $element['url'] += [
         '#title' => $this->fieldDefinition->getLabel(),
-        '#description' => $this->getFilteredDescription()
+        '#description' => $this->getFilteredDescription(),
       ];
     }
 
@@ -96,7 +99,7 @@ class RemoteStreamWrapperWidget extends WidgetBase implements ContainerFactoryPl
     $fileStorage = $this->entityTypeManager->getStorage('file');
 
     $new_values = [];
-    foreach($values as $value) {
+    foreach ($values as $value) {
       /** @var \Drupal\file\FileInterface $file */
       $files = $fileStorage->loadByProperties(['uri' => $value['url']]);
       $file = reset($files);
@@ -112,4 +115,5 @@ class RemoteStreamWrapperWidget extends WidgetBase implements ContainerFactoryPl
 
     return $new_values;
   }
+
 }
