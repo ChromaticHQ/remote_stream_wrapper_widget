@@ -103,7 +103,26 @@ class RemoteStreamWrapperWidgetTest extends BrowserTestBase {
 
     $this->assertSame(200, $this->getSession()->getStatusCode());
     $this->assertSession()->pageTextContains($nodeTitle);
+    $this->assertSession()->pageTextContains($this->fieldName);
     $this->assertSession()->pageTextContains('http://example.com/test.txt');
+  }
+
+  /**
+   * Tests that the site does not crash when the field is left empty.
+   */
+  public function testRegression3043148() {
+    $nodeTitle = $this->randomString();
+    $values = [
+      'title[0][value]' => $nodeTitle,
+      "{$this->fieldName}[0][url]" => '',
+    ];
+    $this->getSession()->visit("/node/add/{$this->contentType->id()}");
+    $this->assertSame(200, $this->getSession()->getStatusCode());
+    $this->submitForm($values, 'Save');
+
+    $this->assertSame(200, $this->getSession()->getStatusCode());
+    $this->assertSession()->pageTextContains($nodeTitle);
+    $this->assertSession()->pageTextNotContains($this->fieldName);
   }
 
 }
