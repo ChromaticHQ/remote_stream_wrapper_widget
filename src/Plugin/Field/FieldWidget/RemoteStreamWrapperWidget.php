@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 /**
- * Plugin implementation of the 'file_generic' widget.
+ * Plugin implementation of the 'remote_stream_wrapper' widget.
  *
  * @FieldWidget(
  *   id = "remote_stream_wrapper",
@@ -26,10 +26,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class RemoteStreamWrapperWidget extends WidgetBase implements ContainerFactoryPluginInterface {
 
-  /** @var \Drupal\Core\Entity\EntityTypeManagerInterface */
+  /**
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
   private $entityTypeManager;
 
-  /** @var \Drupal\Core\Session\AccountProxyInterface */
+  /**
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
   private $currentUser;
 
   /**
