@@ -73,12 +73,12 @@ class RemoteStreamWrapperWidgetTest extends BrowserTestBase {
       'bundle' => $this->contentType->id(),
     ]);
     $this->field->save();
-    entity_get_form_display('node', $this->contentType->id(), 'default')
+    \Drupal::service('entity_display.repository')->getFormDisplay('node', $this->contentType->id(), 'default')
       ->setComponent($this->fieldName, [
         'type' => 'remote_stream_wrapper',
       ])
       ->save();
-    entity_get_display('node', $this->contentType->id(), 'full')
+    \Drupal::service('entity_display.repository')->getViewDisplay('node', $this->contentType->id(), 'full')
       ->setComponent($this->fieldName, [
         'type' => 'file_url_plain',
       ])
