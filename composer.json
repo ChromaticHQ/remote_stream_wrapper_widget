@@ -1,0 +1,13 @@
+{
+  "name": "drupal/remote_stream_wrapper_widget",
+  "type": "drupal-module",
+  "description": "This project provides a file/image widget implementation of the API provided by remote stream wrapper.",
+  "require": {
+    "php": ">=8.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Drupal\\remote_stream_wrapper_widget\\": "src/"
+    }
+  }
+}
